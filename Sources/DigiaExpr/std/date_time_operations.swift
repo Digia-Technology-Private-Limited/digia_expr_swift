@@ -34,7 +34,7 @@ public struct IsoFormatOp: ExprCallable {
         guard let date else { return nil }
 
         var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .gmt
+        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? TimeZone(identifier: "GMT") ?? .current
         let day = calendar.component(.day, from: date)
 
         let monthFormatter = DateFormatter()

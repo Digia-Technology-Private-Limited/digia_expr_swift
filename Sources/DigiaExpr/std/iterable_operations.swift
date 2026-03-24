@@ -88,7 +88,7 @@ public struct SkipOp: ExprCallable {
         }
 
         guard let list = try evaluator.eval(arguments[0])?.listValue else { return .null }
-        let count = try evaluator.eval(arguments[1])?.intValue ?? 0
+        let count = max(0, try evaluator.eval(arguments[1])?.intValue ?? 0)
 
         return .list(Array(list.dropFirst(count)))
     }
@@ -105,7 +105,7 @@ public struct TakeOp: ExprCallable {
         }
 
         guard let list = try evaluator.eval(arguments[0])?.listValue else { return .null }
-        let count = try evaluator.eval(arguments[1])?.intValue ?? 0
+        let count = max(0, try evaluator.eval(arguments[1])?.intValue ?? 0)
 
         return .list(Array(list.prefix(count)))
     }

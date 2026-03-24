@@ -54,7 +54,12 @@ public enum Expression {
         if string.first == "'", string.last == "'" {
             return string
         }
-        return "\"\(string)\""
+
+        let escaped = string
+            .replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
+
+        return "\"\(escaped)\""
     }
 
     private static func wrapsSingleBalancedExpression(_ string: String) -> Bool {

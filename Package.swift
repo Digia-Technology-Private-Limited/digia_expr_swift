@@ -5,7 +5,6 @@ let package = Package(
     name: "digia_expr_swift",
     platforms: [
         .iOS(.v16),
-        .macOS(.v13),
     ],
     products: [
         .library(

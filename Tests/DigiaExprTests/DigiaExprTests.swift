@@ -67,6 +67,13 @@ struct VariableTests {
             try eval("${missing}", ["known": 1])
         }
     }
+
+    @Test("throws for trailing tokens")
+    func throwsForTrailingTokens() {
+        #expect(throws: ExpressionError.invalidExpression("Unexpected trailing token: trailing")) {
+            try eval("sum(1, 2) trailing")
+        }
+    }
 }
 
 // MARK: - String Interpolation
@@ -84,6 +91,11 @@ struct InterpolationTests {
         #expect(try eval("Hello ${a} & ${b}!", vars) as? String == "Hello Alpha & Beta!")
         #expect(try eval("${a}", vars) as? String == "Alpha")
         #expect(try eval("${a}, ${b}", vars) as? String == "Alpha, Beta")
+    }
+
+    @Test("interpolation inside quoted text")
+    func interpolationInsideQuotedText() throws {
+        #expect(try eval("He said \"${name}\"", ["name": "hello"]) as? String == "He said \"hello\"")
     }
 }
 
@@ -229,6 +241,8 @@ struct StringTests {
     func substring() throws {
         #expect(try eval("substring('hello world', 6)") as? String == "world")
         #expect(try eval("substring('hello world', 0, 5)") as? String == "hello")
+        #expect(try eval("substring(title, start)", ["title": "hello world", "start": -2]) as? String == "hello world")
+        #expect(try eval("substring(title, 4, end)", ["title": "hello world", "end": -1]) as? String == "")
     }
 
     @Test("length / strLength")
@@ -486,12 +500,18 @@ struct IterableTests {
     func skip() throws {
         let result = try eval("skip(items, 2)", ["items": [1, 2, 3, 4]]) as? [Any]
         #expect(result?.compactMap { $0 as? Int } == [3, 4])
+
+        let negativeResult = try eval("skip(items, count)", ["items": [1, 2, 3, 4], "count": -1]) as? [Any]
+        #expect(negativeResult?.compactMap { $0 as? Int } == [1, 2, 3, 4])
     }
 
     @Test("take")
     func take() throws {
         let result = try eval("take(items, 2)", ["items": [1, 2, 3, 4]]) as? [Any]
         #expect(result?.compactMap { $0 as? Int } == [1, 2])
+
+        let negativeResult = try eval("take(items, count)", ["items": [1, 2, 3, 4], "count": -1]) as? [Any]
+        #expect(negativeResult?.compactMap { $0 as? Int } == [])
     }
 
     @Test("reversed")

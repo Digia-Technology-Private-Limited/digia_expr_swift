@@ -9,7 +9,14 @@ public struct Parser {
     }
 
     public mutating func parse() throws -> ASTNode {
-        ASTProgram(body: [try walk()])
+        let expression = try walk()
+        skipSeparators()
+
+        if current().type != .eof {
+            throw ExpressionError.invalidExpression("Unexpected trailing token: \(current().lexeme)")
+        }
+
+        return ASTProgram(body: [expression])
     }
 
     private mutating func walk() throws -> ASTNode {
@@ -100,6 +107,12 @@ public struct Parser {
         }
 
         throw ExpressionError.invalidExpression(errorMessage)
+    }
+
+    private mutating func skipSeparators() {
+        while current().type == .semicolon || current().type == .newLine {
+            advance()
+        }
     }
 
     private func hasExpression(_ string: String) -> Bool {

@@ -92,7 +92,7 @@ public struct Scanner {
             if char == leftQuote, previous != "\\" {
                 let value = String(chars[(start + 1)..<currentIndex])
                 advance()
-                addToken(.string, value)
+                addToken(.string, unescapeString(value))
                 return
             }
 
@@ -104,6 +104,46 @@ public struct Scanner {
         }
 
         throw ExpressionError.invalidExpression("Unterminated String")
+    }
+
+    private func unescapeString(_ value: String) -> String {
+        var result = ""
+        var isEscaped = false
+
+        for char in value {
+            if isEscaped {
+                switch char {
+                case "n":
+                    result.append("\n")
+                case "r":
+                    result.append("\r")
+                case "t":
+                    result.append("\t")
+                case "\\":
+                    result.append("\\")
+                case "\"":
+                    result.append("\"")
+                case "'":
+                    result.append("'")
+                default:
+                    result.append(char)
+                }
+                isEscaped = false
+                continue
+            }
+
+            if char == "\\" {
+                isEscaped = true
+            } else {
+                result.append(char)
+            }
+        }
+
+        if isEscaped {
+            result.append("\\")
+        }
+
+        return result
     }
 
     private mutating func scanNumber() throws {

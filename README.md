@@ -1,8 +1,9 @@
-# Digia Expressions (Swift)
+# Digia Expr (Swift)
 
 A powerful and flexible expression evaluator for Swift, designed to dynamically process expressions with support for variables, custom functions, and string interpolation.
 
 > **Note**: This package is developed for internal use within Digia SDKs and is not intended for general public consumption.
+> Supported platform: iOS 16.0+.
 
 ## Key Features
 
@@ -12,15 +13,30 @@ A powerful and flexible expression evaluator for Swift, designed to dynamically 
 
 ## Installation
 
+### Swift Package Manager
+
 Add this package in Xcode using the repository URL, or add it in `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "git@github.com:Digia-Technology-Private-Limited/digia_expr_swift.git", branch: "main"),
+    .package(
+        url: "https://github.com/Digia-Technology-Private-Limited/digia_expr_swift.git",
+        from: "0.1.0"
+    ),
 ]
 ```
 
 Then depend on `DigiaExpr`.
+
+### CocoaPods
+
+Add `DigiaExpr` to your `Podfile`:
+
+```ruby
+pod 'DigiaExpr', '0.1.0'
+```
+
+If you are distributing this internally through a private specs repo, add that specs source before running `pod install`.
 
 ## Usage
 
@@ -68,6 +84,14 @@ When you import `DigiaExpr`, you get access to:
 swift test
 ```
 
+## Release
+
+- Swift Package Manager distribution is driven by git tags. Tag and push `0.1.0`.
+- CocoaPods distribution is driven by `DigiaExpr.podspec`.
+- This package targets iOS only.
+- For an internal/private CocoaPods setup, publish the podspec to your private specs repo.
+- For public CocoaPods trunk, the source repository and tag referenced by the podspec must be publicly reachable.
+
 ## Changelog
 
 See `CHANGELOG.md`.
@@ -75,3 +99,7 @@ See `CHANGELOG.md`.
 ## License
 
 This project is licensed under Business Source License 1.1. See `LICENSE`.
+
+---
+
+Built with ❤️ by the Digia team

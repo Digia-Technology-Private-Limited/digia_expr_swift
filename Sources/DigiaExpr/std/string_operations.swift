@@ -23,8 +23,12 @@ public struct SubStringOp: ExprCallable {
 
         let end = try arguments.count > 2 ? evaluator.eval(arguments[2])?.intValue : nil
 
-        let startIndex = string.index(string.startIndex, offsetBy: min(start, string.count))
-        let endIndex = end.map { string.index(string.startIndex, offsetBy: min($0, string.count)) } ?? string.endIndex
+        let startOffset = max(0, min(start, string.count))
+        let endOffset = end.map { max(0, min($0, string.count)) } ?? string.count
+        let clampedEndOffset = max(startOffset, endOffset)
+
+        let startIndex = string.index(string.startIndex, offsetBy: startOffset)
+        let endIndex = string.index(string.startIndex, offsetBy: clampedEndOffset)
         return .string(String(string[startIndex..<endIndex]))
     }
 }
