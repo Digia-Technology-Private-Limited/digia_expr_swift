@@ -1,5 +1,8 @@
 # Digia Expr (Swift)
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FDigia-Technology-Private-Limited%2Fdigia_expr_swift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/Digia-Technology-Private-Limited/digia_expr_swift)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FDigia-Technology-Private-Limited%2Fdigia_expr_swift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/Digia-Technology-Private-Limited/digia_expr_swift)
+
 A powerful and flexible expression evaluator for Swift, designed to dynamically process expressions with support for variables, custom functions, and string interpolation.
 
 > **Note**: This package is developed for internal use within Digia SDKs and is not intended for general public consumption.
